@@ -11,6 +11,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -53,8 +54,8 @@ public class Compressor implements IRecipeCategory<CompressingRecipe> {
         this.cachedArrow = CacheBuilder.newBuilder().maximumSize(25).build(new CacheLoader<>() {
             @Override
             public IDrawableAnimated load(Integer cookTime) {
-                return guiHelper.drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17).buildAnimated(cookTime,
-                        IDrawableAnimated.StartDirection.LEFT, false);
+                return guiHelper.drawableBuilder(Compressor.GUI, 0, 192, 24, 17) // Use your own GUI texture
+                        .buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
             }
         });
     }
@@ -89,11 +90,13 @@ public class Compressor implements IRecipeCategory<CompressingRecipe> {
     public void draw(CompressingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
         int compressTime = recipe.getCookTime();
         IDrawableAnimated arrow = cachedArrow.getUnchecked(compressTime);
-        arrow.draw(graphics, 38, 21);
+        arrow.draw(graphics, 37, 21);
 
-        // Update the energy cost
-        recipeSlotsView.getSlotViews(RecipeIngredientRole.INPUT).get(0).getIngredients(Jei.FE_INGREDIENT_TYPE)
-                .forEach(i -> i.setAmount(Config.FUEL_REFINERY_ENERGY_USAGE.get()));
+        List<? extends IRecipeSlotView> slotViews = recipeSlotsView.getSlotViews(RecipeIngredientRole.INPUT);
+        if (slotViews.size() > 1) {
+            slotViews.get(1).getIngredients(Jei.FE_INGREDIENT_TYPE)
+                    .forEach(i -> i.setAmount(Config.FUEL_REFINERY_ENERGY_USAGE.get()));
+        }
     }
 
     @Override

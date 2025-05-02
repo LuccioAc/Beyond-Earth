@@ -4,5 +4,6 @@
 		"name": "minecraft:water",
 		"amount": 1
 	},
-	"oxygen": 4
+	"oxygen": 4,
+	"hydrogen": 8
 }

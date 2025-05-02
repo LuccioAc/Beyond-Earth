@@ -3,7 +3,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "item": "beyond_earth:glacio_wood_logs"
+      "item": "beyond_earth:glacio_wood_log"
     }
   ],
   "result": {

@@ -20,7 +20,7 @@
       "tag": "forge:rods/iron"
     },
     "7": {
-      "item": "minecraft:iron_plate"
+      "item": "minecraft:heavy_weighted_pressure_plate"
     }
   },
   "result": {

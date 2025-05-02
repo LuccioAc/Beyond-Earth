@@ -56,8 +56,11 @@ public class OxygenLoader implements IRecipeCategory<WaterSeparatorRecipe> {
         this.cachedArrow = CacheBuilder.newBuilder().maximumSize(25).build(new CacheLoader<>() {
             @Override
             public IDrawableAnimated load(Integer cookTime) {
-                return guiHelper.drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17).buildAnimated(cookTime,
-                        IDrawableAnimated.StartDirection.LEFT, false);
+                return guiHelper.drawableBuilder(
+                        new ResourceLocation(BeyondEarth.MODID, "textures/jei/jei_gui_1.png"),
+                        0, 192,
+                        24, 17
+                ).buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
             }
         });
     }
@@ -92,7 +95,7 @@ public class OxygenLoader implements IRecipeCategory<WaterSeparatorRecipe> {
     public void draw(WaterSeparatorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
 
         IDrawableAnimated arrow = cachedArrow.getUnchecked(100 / Config.FUEL_REFINERY_ENERGY_USAGE.get());
-        arrow.draw(graphics, 40, 22);
+        arrow.draw(graphics, 41, 22);
 
         // Update the energy cost
         recipeSlotsView.getSlotViews(RecipeIngredientRole.INPUT).get(0).getIngredients(Jei.FE_INGREDIENT_TYPE)

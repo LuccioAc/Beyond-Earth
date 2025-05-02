@@ -12,6 +12,7 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -55,8 +56,8 @@ public class FuelRefining implements IRecipeCategory<FuelRefiningRecipe> {
         this.cachedArrow = CacheBuilder.newBuilder().maximumSize(25).build(new CacheLoader<>() {
             @Override
             public IDrawableAnimated load(Integer cookTime) {
-                return guiHelper.drawableBuilder(Constants.RECIPE_GUI_VANILLA, 82, 128, 24, 17).buildAnimated(cookTime,
-                        IDrawableAnimated.StartDirection.LEFT, false);
+                return guiHelper.drawableBuilder(FuelRefining.GUI, 0, 192, 24, 17)
+                        .buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
             }
         });
     }
@@ -88,14 +89,14 @@ public class FuelRefining implements IRecipeCategory<FuelRefiningRecipe> {
     }
 
     @Override
-    public void draw(FuelRefiningRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX,
-                     double mouseY) {
+    public void draw(FuelRefiningRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
         IDrawableAnimated arrow = cachedArrow.getUnchecked(100 / Config.FUEL_REFINERY_ENERGY_USAGE.get());
-        arrow.draw(graphics, 40, 22);
-
-        // Update the energy cost
-        recipeSlotsView.getSlotViews(RecipeIngredientRole.INPUT).get(0).getIngredients(Jei.FE_INGREDIENT_TYPE)
-                .forEach(i -> i.setAmount(Config.FUEL_REFINERY_ENERGY_USAGE.get()));
+        arrow.draw(graphics, 41, 22);
+        List<? extends IRecipeSlotView> slotViews = recipeSlotsView.getSlotViews(RecipeIngredientRole.INPUT);
+        if (slotViews.size() > 1) {
+            slotViews.get(1).getIngredients(Jei.FE_INGREDIENT_TYPE)
+                    .forEach(i -> i.setAmount(Config.FUEL_REFINERY_ENERGY_USAGE.get()));
+        }
     }
 
     @Override
